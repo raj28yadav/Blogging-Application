@@ -7,12 +7,18 @@ router.get("/signin", (req, res) => {
 router.get("/signup", (req, res) => {
     return res.render("signup");
 });
-router.post("./signup", async (req, res) => {
+router.post("/signin", async (req, res) => {
+    const { email, password } = req.body;
+    const user = await User.matchPassword(email, password);
+    console.log("User", user);
+    return res.redirect("/");
+});
+router.post("/signup", async (req, res) => {
     const { fullName, email, password } = req.body;
     await User.create({
         fullName, 
         email, 
-        password
+        password,
     });
     return res.redirect("/");
 });
