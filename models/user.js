@@ -30,6 +30,16 @@ const userSchema = new mongoose.Schema({
 },
 {timestamps: true}
 );
-
+userSchema.pre("save", function(next) {
+    const user = this;
+    if(!user.isModified("password")){
+        return;
+    }
+    const salt = randomBytes(16).toString();
+    const hashedPassword = createHmac("sha256", salt).update(user.password).digest.apply("hex");
+    this.salt = salt;
+    this.password = this.password;
+    next();
+});
 const User = mongoose.model('user', userSchema);
 module.exports = User;
