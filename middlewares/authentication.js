@@ -9,11 +9,11 @@ function checkForAuthenticationCookie(cookieName) {
     try {
       const userPayload = validateToken(tokenCookieValue);
       req.user = userPayload;
-    } catch (error) {
+    } 
+    catch (error) {
     }
     
-    
-    next();
+    return next();
   };
 }
 
